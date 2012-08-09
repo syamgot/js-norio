@@ -1,20 +1,21 @@
 (function() {
 
+	var version = '0.1.1';
 	var system;
 	var imagePath = {
-		  redBtn 		: 'images/red_btn.png'
-		, yellowBtn 	: 'images/yellow_btn.png'
-		, upBtn 		: 'images/up_btn.png'
-		, downBtn 		: 'images/down_btn.png'
-		, rightBtn 		: 'images/right_btn.png'
-		, leftBtn 		: 'images/left_btn.png'
-		, norioStanding : 'images/norio_standing.png'
-		, norioRunning 	: 'images/norio_running.png'
-		, norioBraking 	: 'images/norio_braking.png'
-		, norioJumping 	: 'images/norio_jumping.png'
-		, norioDying 	: 'images/norio_dying.png'
-		, block 		: 'images/block.png'
-		, coin 			: 'images/coin.png'
+		  redBtn 		: 'http://lab.syamgot.com/js/arctic/norio/'+version+'/images/red_btn.png'
+		, yellowBtn 	: 'http://lab.syamgot.com/js/arctic/norio/'+version+'/images/yellow_btn.png'
+		, upBtn 		: 'http://lab.syamgot.com/js/arctic/norio/'+version+'/images/up_btn.png'
+		, downBtn 		: 'http://lab.syamgot.com/js/arctic/norio/'+version+'/images/down_btn.png'
+		, rightBtn 		: 'http://lab.syamgot.com/js/arctic/norio/'+version+'/images/right_btn.png'
+		, leftBtn 		: 'http://lab.syamgot.com/js/arctic/norio/'+version+'/images/left_btn.png'
+		, norioStanding : 'http://lab.syamgot.com/js/arctic/norio/'+version+'/images/norio_standing.png'
+		, norioRunning 	: 'http://lab.syamgot.com/js/arctic/norio/'+version+'/images/norio_running.png'
+		, norioBraking 	: 'http://lab.syamgot.com/js/arctic/norio/'+version+'/images/norio_braking.png'
+		, norioJumping 	: 'http://lab.syamgot.com/js/arctic/norio/'+version+'/images/norio_jumping.png'
+		, norioDying 	: 'http://lab.syamgot.com/js/arctic/norio/'+version+'/images/norio_dying.png'
+		, block 		: 'http://lab.syamgot.com/js/arctic/norio/'+version+'/images/block.png'
+		, coin 			: 'http://lab.syamgot.com/js/arctic/norio/'+version+'/images/coin.png'
 	    };
 
 	var imagePaths = [
