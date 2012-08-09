@@ -14,6 +14,7 @@
 		, norioJumping 	: 'images/norio_jumping.png'
 		, norioDying 	: 'images/norio_dying.png'
 		, block 		: 'images/block.png'
+		, coin 			: 'images/coin.png'
 	    };
 
 	var imagePaths = [
@@ -29,6 +30,7 @@
 		, imagePath.norioJumping 	
 		, imagePath.norioDying 	
 		, imagePath.block 	
+		, imagePath.coin 	
 		];
 	
 	function initialize(e){
@@ -52,46 +54,67 @@
 		, pad:null
 		, norio:null
 		, norioInput:null
-	
+		, collisions:null
+
 		, initialize : function () {
 
 			this.norio = new Norio();
 			this.addChild(this.norio.getDisp());
 			this.norio.setX(50);
 
-			this.blocks = [];
+			this.collisions = [];
 
 			var b = new Block(-20, 0, 20, 320);
 			this.addChild(b.getDisp());
-			this.blocks.push(b);
+			this.collisions.push(b);
 
 			var b = new Block(320, 0, 20, 320);
 			this.addChild(b.getDisp());
-			this.blocks.push(b);
+			this.collisions.push(b);
 
 			var b = new Block(0, 320, 320, 100);
 			this.addChild(b.getDisp());
-			this.blocks.push(b);
+			this.collisions.push(b);
 
 			var b = new Block(192, 64, 80, 16);
 			this.addChild(b.getDisp());
-			this.blocks.push(b);
+			this.collisions.push(b);
 
 			var b = new Block(32, 96, 80, 16);
 			this.addChild(b.getDisp());
-			this.blocks.push(b);
+			this.collisions.push(b);
 
 			var b = new Block(160, 128, 80, 16);
 			this.addChild(b.getDisp());
-			this.blocks.push(b);
+			this.collisions.push(b);
 
 			var b = new Block(128, 192, 80, 16);
 			this.addChild(b.getDisp());
-			this.blocks.push(b);
+			this.collisions.push(b);
 
 			var b = new Block(96, 256, 80, 16);
 			this.addChild(b.getDisp());
-			this.blocks.push(b);
+			this.collisions.push(b);
+
+			var c = new Coin(96, 32);
+			this.addChild(c.getDisp());
+			this.collisions.push(c);
+
+			var c = new Coin(136, 178);
+			this.addChild(c.getDisp());
+			this.collisions.push(c);
+
+			var c = new Coin(148, 178);
+			this.addChild(c.getDisp());
+			this.collisions.push(c);
+
+			var c = new Coin(160, 178);
+			this.addChild(c.getDisp());
+			this.collisions.push(c);
+
+			var c = new Coin(172, 178);
+			this.addChild(c.getDisp());
+			this.collisions.push(c);
 
 			this.norioInput = new NorioInput();
 
@@ -114,13 +137,12 @@
 		{
 			var o = this;
 			o.norioInput.reflesh();
-			o.norio.reflesh(o.norioInput, o.blocks);
+			o.norio.reflesh(o.norioInput, o.collisions);
 		}
 	
 	});
 	
 	window.addEventListener('DOMContentLoaded', initialize, false);
-
 
 
 	var Norio = arc.Class.create({
@@ -219,15 +241,20 @@
 			for (var i = 0; i < collisions.length; i++) {
 				var tRec = collisions[i].getRect();
 				if (o.hitTest(tRec)) {
-					if (o._dy > 0) {
-						if (oRec[1] + oRec[3] - tRec[1] < 10) { o._offsetY = -(oRec[1] + oRec[3] - tRec[1]); hit = true;}
+					
+					if (collisions[i].type == 1) {
+						collisions[i].hide();
 					} else {
-						if (tRec[1] + tRec[3] - oRec[1] < 10) { o._offsetY =   tRec[1] + tRec[3] - oRec[1];}
-					}
-					if (o._dx > 0) {
-						if (oRec[0] + oRec[2] - tRec[0] < 10) { o._offsetX = -(oRec[0] + oRec[2] - tRec[0]);}
-					} else {
-						if (tRec[0] + tRec[2] - oRec[0] < 10) { o._offsetX =   tRec[0] + tRec[2] - oRec[0];}
+						if (o._dy > 0) {
+							if (oRec[1] + oRec[3] - tRec[1] < 10) { o._offsetY = -(oRec[1] + oRec[3] - tRec[1]); hit = true;}
+						} else {
+							if (tRec[1] + tRec[3] - oRec[1] < 10) { o._offsetY =   tRec[1] + tRec[3] - oRec[1];}
+						}
+						if (o._dx > 0) {
+							if (oRec[0] + oRec[2] - tRec[0] < 10) { o._offsetX = -(oRec[0] + oRec[2] - tRec[0]);}
+						} else {
+							if (tRec[0] + tRec[2] - oRec[0] < 10) { o._offsetX =   tRec[0] + tRec[2] - oRec[0];}
+						}
 					}
 				}
 			}
@@ -378,6 +405,7 @@
 
 		, disp 			: null
 		, bg 			: null
+		, type 			: 0
 
 		, setX:function(val) { this.disp.setX(val); }
 		, setY:function(val) { this.disp.setY(val); }
@@ -385,6 +413,36 @@
 		, getRect : function() { return [this.disp.getX(), this.disp.getY(), this.disp.getWidth(), this.disp.getHeight()];}
 	});
 	
+	var Coin = arc.Class.create({
+		initialize:function(x, y) {
+			var o = this;
+			
+			o.disp = new arc.display.MovieClip();
+
+			o.bg = new arc.display.Shape();
+			o.bg.beginFill(0xC67100, 1);
+			o.bg.drawRect(0, 0, 8, 14);
+			o.bg.endFill();
+			o.disp.addChild(o.bg);
+
+			var img = new arc.display.Sprite(system.getImage(imagePath.coin));
+			o.disp.addChild(img);
+
+			o.disp.setX(x);
+			o.disp.setY(y);
+		}
+
+		, disp 			: null
+		, bg 			: null
+		, type 			: 1
+
+		, hide:function() { this.disp.setVisible(false); }
+
+		, setX:function(val) { this.disp.setX(val); }
+		, setY:function(val) { this.disp.setY(val); }
+		, getDisp : function() { return this.disp; }
+		, getRect : function() { return [this.disp.getX(), this.disp.getY(), this.disp.getWidth(), this.disp.getHeight()];}
+	});
 
 	var Pad = arc.Class.create({
 
